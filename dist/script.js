@@ -30,12 +30,22 @@ class Slider {
       child.style.display = 'none';
     }
     this.slides[this.slideIndex - 1].style.display = 'block';
+    if (n === 3) {
+      try {
+        const hanson = document.querySelector('.hanson');
+        hanson.style.opacity = '0';
+        hanson.classList.add('animated');
+        setTimeout(() => {
+          hanson.style.opacity = '1';
+          hanson.classList.add('slideInUp');
+        }, 2000);
+      } catch (e) {}
+    }
   }
   plusSlides(n) {
     this.showSlides(this.slideIndex += n);
   }
   render() {
-    console.log(this.slides);
     this.btns.forEach(item => {
       item.addEventListener('click', () => {
         this.plusSlides(1);

@@ -7,6 +7,7 @@ export default class Slider {
     }
 
     showSlides(n) {
+        
         if (n > this.slides.length) {
             this.slideIndex = 1;
         }
@@ -20,6 +21,17 @@ export default class Slider {
         }
 
         this.slides[this.slideIndex - 1].style.display = 'block';
+        if(n === 3){
+            try{
+                const hanson = document.querySelector('.hanson');
+                hanson.style.opacity = '0';
+                hanson.classList.add('animated');
+                setTimeout(() => {
+                    hanson.style.opacity = '1';
+                    hanson.classList.add('slideInUp');
+                }, 2000);
+            }catch(e){}
+        }
     }
 
     plusSlides(n) {
@@ -27,7 +39,6 @@ export default class Slider {
     }
 
     render() {
-        console.log(this.slides);
         this.btns.forEach(item => {
             item.addEventListener('click', () => {
                 this.plusSlides(1);
