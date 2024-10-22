@@ -113,7 +113,7 @@ export default class Form {
                         statusMessage.textContent = this.message.failure;
                     })
                     .finally(() => {
-                        clearInputs();
+                        this.clearInputs();
                         setTimeout(() => {
                             statusMessage.remove();
                         }, 3000);

@@ -152,7 +152,7 @@ class Form {
         }).catch(() => {
           statusMessage.textContent = this.message.failure;
         }).finally(() => {
-          clearInputs();
+          this.clearInputs();
           setTimeout(() => {
             statusMessage.remove();
           }, 3000);
