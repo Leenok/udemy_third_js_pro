@@ -56,22 +56,21 @@ class VideoPlayer {
 
 /***/ }),
 
-/***/ "./src/js/modules/slider.js":
-/*!**********************************!*\
-  !*** ./src/js/modules/slider.js ***!
-  \**********************************/
+/***/ "./src/js/modules/slider/slider-main.js":
+/*!**********************************************!*\
+  !*** ./src/js/modules/slider/slider-main.js ***!
+  \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Slider)
+/* harmony export */   "default": () => (/* binding */ MainSlider)
 /* harmony export */ });
-class Slider {
+/* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/js/modules/slider/slider.js");
+
+class MainSlider extends _slider__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(page, btns) {
-    this.page = document.querySelector(page);
-    this.slides = this.page.children;
-    this.btns = document.querySelectorAll(btns);
-    this.slideIndex = 1;
+    super(page, btns);
   }
   showSlides(n) {
     if (n > this.slides.length) {
@@ -80,26 +79,30 @@ class Slider {
     if (n < 1) {
       this.slideIndex = this.slides.length;
     }
+    try {
+      this.hanson.style.opacity = '0';
+      if (n == 3) {
+        this.hanson.classList.add('animated');
+        setTimeout(() => {
+          this.hanson.style.opacity = '1';
+          this.hanson.classList.add('slideInUp');
+        }, 3000);
+      } else {
+        this.hanson.classList.remove('slideInUp');
+      }
+    } catch (e) {}
     for (const child of this.slides) {
       child.style.display = 'none';
     }
     this.slides[this.slideIndex - 1].style.display = 'block';
-    if (n === 3) {
-      try {
-        const hanson = document.querySelector('.hanson');
-        hanson.style.opacity = '0';
-        hanson.classList.add('animated');
-        setTimeout(() => {
-          hanson.style.opacity = '1';
-          hanson.classList.add('slideInUp');
-        }, 2000);
-      } catch (e) {}
-    }
   }
   plusSlides(n) {
     this.showSlides(this.slideIndex += n);
   }
   render() {
+    try {
+      this.hanson = document.querySelector('.hanson');
+    } catch (e) {}
     this.btns.forEach(item => {
       item.addEventListener('click', () => {
         this.plusSlides(1);
@@ -111,6 +114,32 @@ class Slider {
       });
     });
     this.showSlides(this.slideIndex);
+  }
+}
+
+/***/ }),
+
+/***/ "./src/js/modules/slider/slider.js":
+/*!*****************************************!*\
+  !*** ./src/js/modules/slider/slider.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Slider)
+/* harmony export */ });
+class Slider {
+  constructor({
+    page = "",
+    btns = "",
+    next = "",
+    prev = ""
+  } = {}) {
+    this.page = document.querySelector(page);
+    this.slides = this.page.children;
+    this.btns = document.querySelectorAll(btns);
+    this.slideIndex = 1;
   }
 }
 
@@ -179,12 +208,15 @@ var __webpack_exports__ = {};
   !*** ./src/js/main.js ***!
   \************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/slider */ "./src/js/modules/slider.js");
+/* harmony import */ var _modules_slider_slider_main__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/slider/slider-main */ "./src/js/modules/slider/slider-main.js");
 /* harmony import */ var _modules_playVideo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/playVideo */ "./src/js/modules/playVideo.js");
 
 
 window.addEventListener('DOMContentLoaded', () => {
-  const slider = new _modules_slider__WEBPACK_IMPORTED_MODULE_0__["default"]('.page', '.next');
+  const slider = new _modules_slider_slider_main__WEBPACK_IMPORTED_MODULE_0__["default"]({
+    btns: '.next',
+    page: '.page'
+  });
   slider.render();
   const player = new _modules_playVideo__WEBPACK_IMPORTED_MODULE_1__["default"]('.showup .play', '.overlay');
   player.init();

@@ -1,13 +1,11 @@
-export default class Slider {
-    constructor(page, btns){
-        this.page = document.querySelector(page);
-        this.slides = this.page.children;
-        this.btns = document.querySelectorAll(btns);
-        this.slideIndex = 1;
+import Slider from './slider';
+
+export default class MainSlider extends Slider {
+    constructor(page, btns) {
+        super(page, btns);
     }
 
     showSlides(n) {
-        
         if (n > this.slides.length) {
             this.slideIndex = 1;
         }
@@ -16,22 +14,25 @@ export default class Slider {
             this.slideIndex = this.slides.length;
         }
 
+        try {
+            this.hanson.style.opacity = '0';
+
+            if (n == 3){
+                this.hanson.classList.add('animated');
+                setTimeout(() => {
+                    this.hanson.style.opacity = '1';
+                    this.hanson.classList.add('slideInUp');
+                }, 3000);
+            } else {
+                this.hanson.classList.remove('slideInUp');
+            }
+        }catch(e){}
+
         for (const child of this.slides) {
             child.style.display = 'none';
         }
 
         this.slides[this.slideIndex - 1].style.display = 'block';
-        if(n === 3){
-            try{
-                const hanson = document.querySelector('.hanson');
-                hanson.style.opacity = '0';
-                hanson.classList.add('animated');
-                setTimeout(() => {
-                    hanson.style.opacity = '1';
-                    hanson.classList.add('slideInUp');
-                }, 2000);
-            }catch(e){}
-        }
     }
 
     plusSlides(n) {
@@ -39,6 +40,10 @@ export default class Slider {
     }
 
     render() {
+        try {
+            this.hanson = document.querySelector('.hanson');
+        } catch(e){}
+
         this.btns.forEach(item => {
             item.addEventListener('click', () => {
                 this.plusSlides(1);
