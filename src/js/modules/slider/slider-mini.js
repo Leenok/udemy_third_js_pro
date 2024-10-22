@@ -38,7 +38,7 @@ export default class MiniSlider extends Slider {
             this.dicorizeSlides();
         } else {
             this.container.appendChild(this.slides[0]);
-            this.dicorizeSlides();
+            this.dicorizeSlides(); 
         }
     }
 
